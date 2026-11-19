@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your Network Alarms Are Lying to You – Pathum Dilshan</title>
+<meta name="description" content="Why static KPI thresholds fail in mobile networks, and the drift trap that catches even machine-learning models. By Pathum Dilshan, RF & Network Planning Engineer.">
+<meta name="author" content="Pathum Dilshan">
+<link rel="canonical" href="https://pmpdilshan.github.io/kpi-anomaly-detection.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Your Network Alarms Are Lying to You">
+<meta property="og:description" content="Why static KPI thresholds fail in mobile networks, and the drift trap that catches even ML models.">
+<meta property="og:url" content="https://pmpdilshan.github.io/kpi-anomaly-detection.html">
+<meta property="og:image" content="https://pmpdilshan.github.io/kpi-cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"Your Network Alarms Are Lying to You","description":"Why static KPI thresholds fail in mobile networks, and the drift trap that catches even machine-learning models.","image":"https://pmpdilshan.github.io/kpi-cover.png","datePublished":"2026-11-19","author":{"@type":"Person","@id":"https://pmpdilshan.github.io/#person","name":"Pathum Dilshan","url":"https://pmpdilshan.github.io/"},"mainEntityOfPage":"https://pmpdilshan.github.io/kpi-anomaly-detection.html","keywords":"anomaly detection, telecom KPI, concept drift, RAN, machine learning"}
+</script>
+<style>
+:root{--bg:#fafaf9;--ink:#1c1917;--muted:#57534e;--line:#e7e5e4;--accent:#0f5f8f;--code:#f1f0ee}
+@media (prefers-color-scheme:dark){:root{--bg:#121212;--ink:#f5f5f4;--muted:#a8a29e;--line:#2e2e2e;--accent:#6cb6e6;--code:#1e1e1e}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:40px 16px 64px}
+h1,h2,nav,.meta,figcaption,footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:2.3rem;line-height:1.15;margin:12px 0 8px}
+h2{font-size:1.4rem;margin-top:40px}
+.sub{font-size:1.2rem;color:var(--muted);margin:0 0 12px}
+.meta{color:var(--muted);font-size:.9rem}
+a{color:var(--accent)}
+img{max-width:100%;border-radius:8px;display:block}
+figure{margin:28px 0}
+figcaption{color:var(--muted);font-size:.85rem;margin-top:8px}
+pre{background:var(--code);padding:16px;border-radius:8px;overflow-x:auto;font-size:.95rem}
+blockquote{border-left:4px solid var(--accent);margin:24px 0;padding:4px 0 4px 18px;font-weight:bold}
+hr{border:0;border-top:1px solid var(--line);margin:36px 0}
+nav a{font-weight:600;text-decoration:none}
+footer{margin-top:40px;color:var(--muted);font-size:.9rem}
+</style>
+</head>
+<body>
+<main>
+<nav><a href="https://pmpdilshan.github.io/">← Pathum Dilshan</a></nav>
+<article>
+<h1>Your Network Alarms Are Lying to You</h1>
+<p class="sub">Why static KPI thresholds fail in mobile networks, and the “drift trap” that catches even ML models</p>
+<p class="meta">By <a href="https://pmpdilshan.github.io/" rel="author">Pathum Dilshan</a> · 19 November 2026</p>
+<figure><img src="kpi-cover.png" alt="Static thresholds are lying to you: anomaly detection for mobile network KPIs"></figure>
+
+<p>At 3 a.m. a cell starts dropping calls. Nobody gets an alert.</p>
+<p>At 9 a.m. the same cell gets busy, as it does every weekday, and the alarm goes off. An engineer checks it, finds nothing wrong, and closes the ticket.</p>
+<p>If you work in network operations, you’ve lived this. I have too, as an RF and network planning engineer on a live 2G/3G/4G/5G network. The cause is almost always the same rule:</p>
+<pre><code>if drop_rate &gt; 2%:
+    raise_alarm()</code></pre>
+<p>Static thresholds are simple, explainable and easy to roll out across thousands of cells. They are also wrong far more often than most teams admit. Here’s why, and what to do instead.</p>
+<hr>
+
+<h2>1. Every cell has its own “normal”</h2>
+<p>A cell next to a highway, one covering a busy market and one in a quiet village behave completely differently. One threshold can’t fit all three. Set it low and the busy cells flood you with false alarms. Set it high and the quiet cell can degrade for weeks without anyone noticing.</p>
+
+<h2>2. Time changes everything</h2>
+<figure><img src="kpi-chart-threshold.png" alt="Chart: a static threshold fires at every peak hour but misses a real fault at night"><figcaption>Illustrative. The static threshold fires at every peak hour but misses a real fault at night, which the learned band catches.</figcaption></figure>
+<p>Traffic at 9 a.m. on a Monday looks nothing like traffic at 2 a.m. on a Sunday. A value that is alarming at night can be perfectly healthy at peak hour. A fixed line through the chart can’t tell the difference.</p>
+
+<h2>3. Networks change on purpose</h2>
+<p>This is the one that hurt most. I worked on a vendor swap of <strong>more than 500 sites</strong>, moving from one equipment vendor to another. KPI baselines shifted overnight. Nothing was broken: counters are simply defined differently between vendors.</p>
+<p>Static thresholds lit up everywhere. The real faults were buried in the noise.</p>
+<hr>
+
+<h2>The first fix: let the model learn “normal”</h2>
+<p>Instead of telling the system what normal is, let it learn normal <strong>per cell, per hour and per day of the week</strong>, then flag deviations from that.</p>
+<p>Even simple statistical and machine-learning baselines do this far better than fixed limits. In my work, an ML-based approach improved detection accuracy by <strong>about 18%</strong> compared with the static thresholds we had been using.</p>
+<p>But learned baselines bring a new problem.</p>
+
+<h2>The drift trap</h2>
+<figure><img src="kpi-chart-drift.png" alt="Chart: blind retraining learns a real fault as the new normal while a drift-aware baseline does not"><figcaption>Illustrative. Blind retraining follows the vendor swap correctly, then slowly learns a real fault as the new normal. A drift-aware baseline accepts the expected change and still flags the fault.</figcaption></figure>
+<p>A model trained on last month’s data slowly goes stale. New sites go live, parameters are retuned, traffic grows and software is upgraded. This is called <strong>concept drift</strong>, and in telecom it’s the normal state, not the exception.</p>
+<p>The obvious fix is to keep retraining on recent data. But retrain blindly and the model eventually learns a genuine fault as “normal.” A cell that has been degraded for two weeks stops looking anomalous. It hasn’t recovered; the model has simply got used to it.</p>
+<p>So the real question is:</p>
+<blockquote>How do you adapt to normal change without absorbing genuine faults?</blockquote>
+
+<h2>What I’m researching</h2>
+<p>That question is the focus of my MSc research in Data Science &amp; AI at the University of Moratuwa: <strong>drift-aware anomaly detection and root-cause ranking for mobile RAN KPI data.</strong> At a high level, the approach has three parts:</p>
+<ul>
+<li><strong>Use what you already know.</strong> Vendor swaps, new sites and parameter changes are planned in advance. A detector should use that context instead of guessing.</li>
+<li><strong>Adapt carefully.</strong> Update the baseline only when a shift is consistent, explainable and not tied to a worse user experience.</li>
+<li><strong>Don’t stop at “something is wrong.”</strong> “Cell 4521 is anomalous” still leaves an engineer digging through dozens of counters. Ranking which KPIs most likely explain each anomaly turns an alert into a starting point for root-cause analysis.</li>
+</ul>
+
+<h2>Why it matters</h2>
+<ul>
+<li><strong>Fewer false alarms</strong> mean engineers spend their time on problems customers actually feel.</li>
+<li><strong>Root-cause ranking</strong> saves hours on every incident.</li>
+<li><strong>A detector that survives network change</strong> means you don’t rebuild your monitoring every time the network evolves, which in this industry is constantly.</li>
+</ul>
+
+<h2>The bigger lesson</h2>
+<p>The most valuable thing I’ve learned working between RF engineering and data science is this: <strong>domain knowledge decides whether a model is useful.</strong></p>
+<p>A data scientist without network context will happily train on data whose definitions changed halfway through. An RF engineer without data skills will keep tuning thresholds by hand. The real value is where the two meet.</p>
+<p>I’ll share results as the research progresses. <strong>How does your team handle KPI drift?</strong> Tell me in the responses. I read every one.</p>
+<hr>
+<p><em>Pathum Dilshan is an RF &amp; Network Planning Engineer at Mobitel, Sri Lanka, and an MSc Data Science &amp; AI student at the University of Moratuwa. He writes about telecom, data and AI. Connect on <a href="https://www.linkedin.com/in/pathum-dilshan/">LinkedIn</a> or visit <a href="https://pmpdilshan.github.io/">pmpdilshan.github.io</a>.</em></p>
+</article>
+<footer>© 2026 Pathum Dilshan · Colombo, Sri Lanka</footer>
+</main>
+</body>
+</html>

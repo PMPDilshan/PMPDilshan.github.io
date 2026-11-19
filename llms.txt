@@ -18,5 +18,6 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - Contact: pmpdilshan@gmail.com
 
 ## Writing
+- [Your Network Alarms Are Lying to You](https://pmpdilshan.github.io/kpi-anomaly-detection.html): why static KPI thresholds fail and the concept-drift trap
 - [I Built a Medical AI Model That Knows When to Say "I'm Not Sure"](https://medium.com/@pmpdilshan/i-built-a-medical-ai-model-that-knows-when-to-say-im-not-sure-7462a336b8ce)
 - [I Built Three Reinforcement Learning Agents. The "Improved" Ones Lost.](https://medium.com/@pmpdilshan/i-built-three-reinforcement-learning-agents-the-improved-ones-lost-9be147431c34)
