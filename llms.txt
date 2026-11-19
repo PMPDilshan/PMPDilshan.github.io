@@ -1,0 +1,22 @@
+# Pathum Dilshan
+
+> Pathum Dilshan is an RF and network planning engineer at Mobitel (Sri Lanka) who builds data engineering and machine learning tools for mobile network KPIs. He holds a BSc (Hons) in Electronic & Telecommunication Engineering (CINEC Campus) and is reading for an MSc in Data Science & AI at the University of Moratuwa.
+
+Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
+
+## Profiles
+- [LinkedIn](https://www.linkedin.com/in/pathum-dilshan/)
+- [GitHub](https://github.com/PMPDilshan)
+- [Medium](https://medium.com/@pmpdilshan)
+- [Kaggle](https://www.kaggle.com/pathumdil)
+
+## Key facts
+- Current role: Engineer – Network Planning & Optimization, Mobitel (Pvt) Ltd, Colombo (since Sep 2024)
+- Previous: Technical Executive (Huawei), Prime Engineering Lanka, deployed to Hutchison Telecommunications Lanka (2024)
+- Research: drift-aware anomaly detection and root-cause ranking for mobile RAN KPI data (supervisor Prof. Indika Perera)
+- Skills: RF/RAN optimization, LTE/5G, Python, SQL, Apache Airflow, machine learning, anomaly detection, Power BI, Looker Studio
+- Contact: pmpdilshan@gmail.com
+
+## Writing
+- [I Built a Medical AI Model That Knows When to Say "I'm Not Sure"](https://medium.com/@pmpdilshan/i-built-a-medical-ai-model-that-knows-when-to-say-im-not-sure-7462a336b8ce)
+- [I Built Three Reinforcement Learning Agents. The "Improved" Ones Lost.](https://medium.com/@pmpdilshan/i-built-three-reinforcement-learning-agents-the-improved-ones-lost-9be147431c34)
