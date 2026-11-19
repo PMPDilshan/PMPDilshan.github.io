@@ -18,6 +18,11 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - Contact: pmpdilshan@gmail.com
 
 ## Writing
+- [From Drive Tests to Data Pipelines: Why I Went from RF Engineer to Data & AI](https://pmpdilshan.github.io/rf-engineer-to-data-ai.html)
+- [What 817,741 Supermarket Transactions Taught Me About Reading Data](https://pmpdilshan.github.io/supermarket-sales-insights.html)
+- [Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap](https://pmpdilshan.github.io/vendor-swap-lessons.html)
+- [How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow](https://pmpdilshan.github.io/airflow-kpi-pipeline.html)
+- [I Built a Sales Dashboard. Here's What I'd Change.](https://pmpdilshan.github.io/dashboard-design-lessons.html)
 - [Your Network Alarms Are Lying to You](https://pmpdilshan.github.io/kpi-anomaly-detection.html): why static KPI thresholds fail and the concept-drift trap
 - [I Built a Medical AI Model That Knows When to Say "I'm Not Sure"](https://medium.com/@pmpdilshan/i-built-a-medical-ai-model-that-knows-when-to-say-im-not-sure-7462a336b8ce)
 - [I Built Three Reinforcement Learning Agents. The "Improved" Ones Lost.](https://medium.com/@pmpdilshan/i-built-three-reinforcement-learning-agents-the-improved-ones-lost-9be147431c34)

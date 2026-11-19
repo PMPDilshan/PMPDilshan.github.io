@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap – Pathum Dilshan</title>
+<meta name="description" content="What I learned supporting a Huawei-to-ZTE swap on a live mobile network. By Pathum Dilshan, RF & Network Planning Engineer and MSc Data Science & AI student.">
+<meta name="author" content="Pathum Dilshan"><link rel="canonical" href="https://pmpdilshan.github.io/vendor-swap-lessons.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap"><meta property="og:description" content="What I learned supporting a Huawei-to-ZTE swap on a live mobile network">
+<meta property="og:url" content="https://pmpdilshan.github.io/vendor-swap-lessons.html"><meta property="og:image" content="https://pmpdilshan.github.io/vendor-swap-lessons-cover.png"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap","description":"What I learned supporting a Huawei-to-ZTE swap on a live mobile network","image":"https://pmpdilshan.github.io/vendor-swap-lessons-cover.png","datePublished":"2026-11-25","author":{"@type":"Person","@id":"https://pmpdilshan.github.io/#person","name":"Pathum Dilshan","url":"https://pmpdilshan.github.io/"},"mainEntityOfPage":"https://pmpdilshan.github.io/vendor-swap-lessons.html"}</script>
+<style>:root{--bg:#fafaf9;--ink:#1c1917;--muted:#57534e;--line:#e7e5e4;--accent:#0f5f8f}
+@media (prefers-color-scheme:dark){:root{--bg:#121212;--ink:#f5f5f4;--muted:#a8a29e;--line:#2e2e2e;--accent:#6cb6e6}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:40px 16px 64px}h1,h2,h3,nav,.meta,figcaption,footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:2.2rem;line-height:1.15;margin:12px 0 8px}h2{font-size:1.4rem;margin-top:40px}h3{font-size:1.15rem;margin-top:28px}
+.sub{font-size:1.2rem;color:var(--muted);margin:0 0 12px}.meta{color:var(--muted);font-size:.9rem}a{color:var(--accent)}
+img{max-width:100%;border-radius:8px;display:block}figure{margin:28px 0}figcaption{color:var(--muted);font-size:.85rem;margin-top:8px}
+nav a{font-weight:600;text-decoration:none}footer{margin-top:40px;color:var(--muted);font-size:.9rem}</style></head>
+<body><main><nav><a href="https://pmpdilshan.github.io/">← Pathum Dilshan</a></nav><article>
+<h1>Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap</h1><p class="sub">What I learned supporting a Huawei-to-ZTE swap on a live mobile network</p>
+<p class="meta">By <a href="https://pmpdilshan.github.io/" rel="author">Pathum Dilshan</a></p>
+<figure><img src="vendor-swap-lessons-cover.png" alt="Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap"></figure>
+<p>At Mobitel I supported a vendor swap of more than 500 cell sites in the Gampaha area, replacing Huawei radio equipment with ZTE. The goal sounds simple: change the equipment, keep the network working. In practice it's one of the most demanding projects a radio network team can take on, because the network never stops. People are making calls, streaming and paying with their phones while you replace the equipment under them.</p>
+<p>Here's what I took away from it.</p>
+<h2>1. Your baseline is everything</h2>
+<p>Before a single site is touched, you need a clear picture of how every cell performs today: drop rate, accessibility, handover success, throughput, traffic. Without a solid pre-swap baseline, you can't tell whether a post-swap change is a problem or just normal variation.</p>
+<h2>2. Same network, different numbers</h2>
+<p>Different vendors don't always define or count KPIs the same way. After a swap, some numbers move even when the customer experience hasn't changed. Teams that don't know this waste days chasing "degradations" that are really definitional differences, or worse, dismiss real problems as "just the new counters."</p>
+<p>(This exact problem later became the starting point for my MSc research on drift-aware anomaly detection.)</p>
+<h2>3. Neighbours and parameters are where problems hide</h2>
+<p>Most post-swap issues weren't hardware failures. They were in the configuration: neighbour relations, handover parameters, PCI planning, and the border between swapped and not-yet-swapped areas. The cluster boundary is where two vendors' equipment must hand calls back and forth, and it needs extra attention.</p>
+<h2>4. Swap in clusters, not at random</h2>
+<p>Swapping sites in geographic clusters lets you stabilise one area completely before moving on, and keeps the number of vendor boundaries manageable. Each cluster becomes a small, repeatable project with a clear before-and-after.</p>
+<h2>5. The first 72 hours decide everything</h2>
+<p>Most issues show up within a few days of a cluster going live. Close KPI monitoring in that window, with a quick way to act on what you find, is what keeps downtime low. Automating that monitoring made a big difference: you can't watch hundreds of cells by hand.</p>
+<h2>6. It's a people project as much as a technical one</h2>
+<p>Field teams, the vendor, operations, planning and optimization all have to move in step. Clear communication about what's changing tonight, what to watch tomorrow and who to call when something breaks matters as much as any parameter.</p>
+<h2>The result</h2>
+<p>The swap went ahead with minimum service downtime. Across my optimization work at Mobitel, I've also helped reduce call drop rate by 15% and increase downlink throughput by 20% across 250+ sites. That came from the same habits: measure carefully, change deliberately and watch closely.</p>
+<p>The best vendor swap is the one customers never notice.</p>
+<hr><p><em>Pathum Dilshan is an RF &amp; Network Planning Engineer at Mobitel, Sri Lanka, and an MSc Data Science &amp; AI student at the University of Moratuwa. He writes about telecom, data and AI. Connect on <a href="https://www.linkedin.com/in/pathum-dilshan/">LinkedIn</a> or visit <a href="https://pmpdilshan.github.io/">pmpdilshan.github.io</a>.</em></p>
+</article><footer>© 2026 Pathum Dilshan · Colombo, Sri Lanka</footer></main></body></html>

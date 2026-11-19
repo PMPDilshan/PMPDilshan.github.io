@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow – Pathum Dilshan</title>
+<meta name="description" content="The pattern behind a telecom reporting pipeline, and the mistakes that taught me the most. By Pathum Dilshan, RF & Network Planning Engineer and MSc Data Science & AI student.">
+<meta name="author" content="Pathum Dilshan"><link rel="canonical" href="https://pmpdilshan.github.io/airflow-kpi-pipeline.html">
+<meta property="og:type" content="article"><meta property="og:title" content="How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow"><meta property="og:description" content="The pattern behind a telecom reporting pipeline, and the mistakes that taught me the most">
+<meta property="og:url" content="https://pmpdilshan.github.io/airflow-kpi-pipeline.html"><meta property="og:image" content="https://pmpdilshan.github.io/airflow-kpi-pipeline-cover.png"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow","description":"The pattern behind a telecom reporting pipeline, and the mistakes that taught me the most","image":"https://pmpdilshan.github.io/airflow-kpi-pipeline-cover.png","datePublished":"2026-11-26","author":{"@type":"Person","@id":"https://pmpdilshan.github.io/#person","name":"Pathum Dilshan","url":"https://pmpdilshan.github.io/"},"mainEntityOfPage":"https://pmpdilshan.github.io/airflow-kpi-pipeline.html"}</script>
+<style>:root{--bg:#fafaf9;--ink:#1c1917;--muted:#57534e;--line:#e7e5e4;--accent:#0f5f8f}
+@media (prefers-color-scheme:dark){:root{--bg:#121212;--ink:#f5f5f4;--muted:#a8a29e;--line:#2e2e2e;--accent:#6cb6e6}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:40px 16px 64px}h1,h2,h3,nav,.meta,figcaption,footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:2.2rem;line-height:1.15;margin:12px 0 8px}h2{font-size:1.4rem;margin-top:40px}h3{font-size:1.15rem;margin-top:28px}
+.sub{font-size:1.2rem;color:var(--muted);margin:0 0 12px}.meta{color:var(--muted);font-size:.9rem}a{color:var(--accent)}
+img{max-width:100%;border-radius:8px;display:block}figure{margin:28px 0}figcaption{color:var(--muted);font-size:.85rem;margin-top:8px}
+nav a{font-weight:600;text-decoration:none}footer{margin-top:40px;color:var(--muted);font-size:.9rem}</style></head>
+<body><main><nav><a href="https://pmpdilshan.github.io/">← Pathum Dilshan</a></nav><article>
+<h1>How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow</h1><p class="sub">The pattern behind a telecom reporting pipeline, and the mistakes that taught me the most</p>
+<p class="meta">By <a href="https://pmpdilshan.github.io/" rel="author">Pathum Dilshan</a></p>
+<figure><img src="airflow-kpi-pipeline-cover.png" alt="How I Automated 10M+ Network KPI Records a Day with Python and Apache Airflow"></figure>
+<p>Every hour, a mobile network generates performance counters for every cell: traffic, drops, handovers, throughput, congestion. At Mobitel that adds up to more than 10 million KPI records a day. For a long time, turning that into reports meant exporting files, merging them in Excel and rebuilding the same charts every morning.</p>
+<p>So I built pipelines in Python and Apache Airflow to do it automatically. They cut manual reporting effort by about 40%. Here's the pattern, and what I'd tell anyone building something similar.</p>
+<h2>The pattern</h2>
+<figure><img src="af-pipeline.png" alt="Pipeline: extract, validate, transform, load, report, alert"><figcaption>The general shape of the pipeline.</figcaption></figure>
+<ol>
+<li><strong>Extract:</strong> pull counter exports from the network management systems on a schedule.</li>
+<li><strong>Validate:</strong> check that files arrived, row counts look sensible and no cells are missing.</li>
+<li><strong>Transform:</strong> clean, standardise names, calculate KPIs from raw counters and aggregate by cell, cluster and region.</li>
+<li><strong>Load:</strong> store the results in a database that reports and analysis can query.</li>
+<li><strong>Report and alert:</strong> refresh dashboards and flag cells that need attention.</li>
+</ol>
+<p>Airflow ties it together. Each step is a task, the dependencies are explicit, and if something fails you can see exactly where and rerun just that part.</p>
+<h2>Lessons that mattered most</h2>
+<h3>1. Validation is not optional</h3>
+<p>The most dangerous pipeline isn't the one that fails. It's the one that succeeds with bad data. A late file, a missing region or a changed column name can silently produce a report that looks fine and is wrong. Checking inputs before processing them saved me more than once.</p>
+<h3>2. Make every task safe to rerun</h3>
+<p>Things will fail: a server is down, a file is late. If rerunning a task creates duplicates or overwrites good data, every failure becomes a manual clean-up. Designing each step so it can run twice with the same result (idempotency) makes recovery a click instead of an afternoon.</p>
+<h3>3. Calculate KPIs in one place</h3>
+<p>When three reports each calculate "drop rate" slightly differently, meetings turn into arguments about whose number is right. Defining each KPI once, in the pipeline, means everyone works from the same truth.</p>
+<h3>4. Automate the boring part first</h3>
+<p>I didn't start with machine learning. I started with the report everyone hated building. Once the data was flowing reliably, more interesting work like ML-based anomaly detection became possible, because the foundation was there.</p>
+<h3>5. Log as if you'll debug it at 2 a.m.</h3>
+<p>Because one day you will. Clear logs saying what ran, how many rows and what was skipped turn a mystery into a five-minute fix.</p>
+<h2>What it changed</h2>
+<p>About 40% less time spent on manual reporting, consistent numbers across teams, and more time for actual optimization work. The lesson I'd pass on: <strong>stop building reports. Build the thing that builds reports.</strong></p>
+<hr><p><em>Pathum Dilshan is an RF &amp; Network Planning Engineer at Mobitel, Sri Lanka, and an MSc Data Science &amp; AI student at the University of Moratuwa. He writes about telecom, data and AI. Connect on <a href="https://www.linkedin.com/in/pathum-dilshan/">LinkedIn</a> or visit <a href="https://pmpdilshan.github.io/">pmpdilshan.github.io</a>.</em></p>
+</article><footer>© 2026 Pathum Dilshan · Colombo, Sri Lanka</footer></main></body></html>
