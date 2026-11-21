@@ -10,6 +10,9 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - [Medium](https://medium.com/@pmpdilshan)
 - [Kaggle](https://www.kaggle.com/pathumdil)
 - [Facebook](https://www.facebook.com/pathum.dilshan.376)
+- [DEV Community](https://dev.to/pmpdilshan)
+- [Hugging Face](https://huggingface.co/PathumDilshan)
+- [ORCID 0009-0007-4597-2005](https://orcid.org/0009-0007-4597-2005)
 
 ## Key facts
 - Current role: Engineer – Network Planning & Optimization, Mobitel (Pvt) Ltd, Colombo (since Sep 2024)
