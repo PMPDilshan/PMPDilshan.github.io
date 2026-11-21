@@ -13,6 +13,7 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - [DEV Community](https://dev.to/pmpdilshan)
 - [Hugging Face](https://huggingface.co/PathumDilshan)
 - [ORCID 0009-0007-4597-2005](https://orcid.org/0009-0007-4597-2005)
+- [Hashnode blog](https://pathumdilshan.hashnode.dev/)
 
 ## Key facts
 - Current role: Engineer – Network Planning & Optimization, Mobitel (Pvt) Ltd, Colombo (since Sep 2024)
@@ -20,6 +21,10 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - Research: drift-aware anomaly detection and root-cause ranking for mobile RAN KPI data (supervisor Prof. Indika Perera)
 - Skills: RF/RAN optimization, LTE/5G, Python, SQL, Apache Airflow, machine learning, anomaly detection, Power BI, Looker Studio
 - Contact: pmpdilshan@gmail.com
+
+## Publications
+- P. Dilshan, H. Athauda. "A Custom Spectral Imaging System Optimizing RGB Cameras for Efficient Spectral Data Capture in Industrial Applications." 5th CINEC International Research Symposium (CIRS 2024), 6 Dec 2024 (poster). [Proceedings](https://cirs.cinec.edu/wp-content/uploads/2026/01/Proceedings-CIRS-2024.pdf)
+- P.M. Pathum Dilshan. "RFID Attendance System with Body Temperature GSM Module." 3rd CINEC International Research Symposium (CIRS 2022), 10 Nov 2022 (oral).
 
 ## Writing
 - [From Drive Tests to Data Pipelines: Why I Went from RF Engineer to Data & AI](https://pmpdilshan.github.io/rf-engineer-to-data-ai.html)
