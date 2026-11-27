@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows – Pathum Dilshan</title>
+<meta name="description" content="How I approach LTE in-building (IBS/DAS) design at Bandaranaike International Airport, and why airports break normal radio planning rules. By Pathum Dilshan, RF & Network Planning Engineer and MSc Data Science & AI student.">
+<meta name="author" content="Pathum Dilshan"><link rel="canonical" href="https://pmpdilshan.github.io/airport-ibs-das-capacity.html">
+<meta property="og:type" content="article"><meta property="og:title" content="Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows"><meta property="og:description" content="How I approach LTE in-building (IBS/DAS) design at Bandaranaike International Airport, and why airports break normal radio planning rules">
+<meta property="og:url" content="https://pmpdilshan.github.io/airport-ibs-das-capacity.html"><meta property="og:image" content="https://pmpdilshan.github.io/airport-ibs-das-capacity-cover.png"><meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows","description":"How I approach LTE in-building (IBS/DAS) design at Bandaranaike International Airport, and why airports break normal radio planning rules","image":"https://pmpdilshan.github.io/airport-ibs-das-capacity-cover.png","datePublished":"2026-11-27","author":{"@type":"Person","@id":"https://pmpdilshan.github.io/#person","name":"Pathum Dilshan","url":"https://pmpdilshan.github.io/"},"mainEntityOfPage":"https://pmpdilshan.github.io/airport-ibs-das-capacity.html"}</script>
+<style>:root{--bg:#fafaf9;--ink:#1c1917;--muted:#57534e;--line:#e7e5e4;--accent:#0f5f8f}
+@media (prefers-color-scheme:dark){:root{--bg:#121212;--ink:#f5f5f4;--muted:#a8a29e;--line:#2e2e2e;--accent:#6cb6e6}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.7 Georgia,"Times New Roman",serif}
+main{max-width:720px;margin:0 auto;padding:40px 16px 64px}h1,h2,h3,nav,.meta,figcaption,footer{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:2.2rem;line-height:1.15;margin:12px 0 8px}h2{font-size:1.4rem;margin-top:40px}h3{font-size:1.15rem;margin-top:28px}
+.sub{font-size:1.2rem;color:var(--muted);margin:0 0 12px}.meta{color:var(--muted);font-size:.9rem}a{color:var(--accent)}
+img{max-width:100%;border-radius:8px;display:block}figure{margin:28px 0}figcaption{color:var(--muted);font-size:.85rem;margin-top:8px}
+nav a{font-weight:600;text-decoration:none}footer{margin-top:40px;color:var(--muted);font-size:.9rem}</style></head>
+<body><main><nav><a href="https://pmpdilshan.github.io/">← Pathum Dilshan</a></nav><article>
+<h1>Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows</h1><p class="sub">How I approach LTE in-building (IBS/DAS) design at Bandaranaike International Airport, and why airports break normal radio planning rules</p>
+<p class="meta">By <a href="https://pmpdilshan.github.io/" rel="author">Pathum Dilshan</a></p>
+<figure><img src="airport-ibs-das-capacity-cover.png" alt="Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows"></figure>
+<p>An airport is the worst place to guess.</p>
+<p>Thousands of people land at once, switch their phones off flight mode, and try to message family, book a taxi and upload photos in the same few minutes. If the network can't take that surge, the first impression a visitor gets of the country is "No Service".</p>
+<p>At Mobitel I work on capacity planning and IBS/DAS design for Bandaranaike International Airport (BIA), Katunayake. BIA handled about 10.2 million passenger movements in 2025 and about 4.75 million in the first half of 2026 (<a href="https://www.ft.lk/front-page/BIA-handles-4-75-m-passenger-movements-in-1H/44-794696">Daily FT</a>). Here is the method I use, and what makes airports different from almost any other site.</p>
+<h2>1. Plan for the peak hour, not the average day</h2>
+<p>Ten million passengers a year sounds like 28,000 a day. That number is useless for radio design. Airport traffic arrives in waves set by the flight schedule, so the real question is: <strong>how many active users are inside a given zone during its busiest 15 to 60 minutes?</strong></p>
+<p>I build that from three inputs:</p>
+<ul>
+<li><strong>The flight schedule</strong> by hour and terminal zone (arrivals, departures, transit).</li>
+<li><strong>Aircraft size</strong>, which turns flights into passengers per wave.</li>
+<li><strong>Dwell time per zone</strong>: minutes spent at immigration, baggage claim, gates and lounges.</li>
+</ul>
+<p>A worked example (illustrative numbers, not BIA's actual design figures):</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Wide-body arrivals landing within 30 minutes</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Passengers per flight</td>
+<td>300</td>
+</tr>
+<tr>
+<td>People in baggage claim at the peak</td>
+<td>~900</td>
+</tr>
+<tr>
+<td>Share with an active data session</td>
+<td>40%</td>
+</tr>
+<tr>
+<td>Active users to serve in that zone</td>
+<td>~360</td>
+</tr>
+</tbody>
+</table>
+<p>That single zone can need more capacity than a whole suburban cell site. A busy hall can also be quiet ten minutes later, so capacity has to move with the crowd.</p>
+<h2>2. Split the building into capacity zones</h2>
+<p>An airport isn't one cell. I divide it into zones that behave differently:</p>
+<ul>
+<li><strong>Arrivals, immigration and baggage claim</strong>: short, intense surges right after landings.</li>
+<li><strong>Departure gates and lounges</strong>: long dwell times and heavy video and social media use.</li>
+<li><strong>Check-in halls and kerbside</strong>: mixed crowds of passengers and the people seeing them off.</li>
+<li><strong>Back-of-house areas</strong>: staff, operations and IoT devices with steady, low traffic.</li>
+</ul>
+<p>Each zone gets its own sector or cell group, so a surge at arrivals doesn't starve the gates.</p>
+<h2>3. Choose bands and MIMO by role</h2>
+<p>Different LTE layers do different jobs:</p>
+<ul>
+<li><strong>L1800</strong> is the coverage layer that keeps every device connected.</li>
+<li><strong>L2100 and L2600</strong> are the capacity layers, carrying most of the traffic in dense zones.</li>
+<li><strong>MIMO configuration (2T2R, 4T4R, 8T8R)</strong> depends on zone density and how many streams the DAS can carry. More antenna paths mean more throughput per sector, but also more cost and more complex installation.</li>
+</ul>
+<p>The skill is matching configuration to the zone. 8T8R in a back-office corridor is wasted money; 2T2R at a crowded gate cluster is a complaint waiting to happen.</p>
+<h2>4. Control the boundary with the outdoor network</h2>
+<p>The hardest part of in-building design is often the edge. Outdoor macro cells leak into terminals through glass walls, and indoor cells leak out onto aprons and car parks. Without careful planning, phones ping-pong between indoor and outdoor cells and calls drop at the doors.</p>
+<p>What helps:</p>
+<ul>
+<li>Design the indoor system to dominate inside the building, with a clear signal margin over the outdoor cells.</li>
+<li>Plan neighbour relations and handover parameters for the entrances, where people actually cross over.</li>
+<li>Walk-test the transitions, not just the open halls.</li>
+</ul>
+<h2>5. Optimisation never ends</h2>
+<p>Flight schedules change every season. New airlines arrive, terminals expand and passenger habits shift towards more video. Airport IBS is a living system. I track KPIs by zone and by hour, especially accessibility, drop rate, throughput per user and PRB utilisation, and adjust capacity before users feel the congestion.</p>
+<h2>What I'd tell any RF engineer starting on a venue like this</h2>
+<ol>
+<li>Start from people, not square metres. Passenger flow is the real input.</li>
+<li>Design for the peak 15 minutes, and know which zone it happens in.</li>
+<li>Treat the indoor–outdoor boundary as its own design problem.</li>
+<li>Build monitoring in from day one. A venue changes faster than a city.</li>
+</ol>
+<p>Airports show that radio planning is really demand planning. The physics matters, but the passengers write the requirements.</p>
+<hr><p><em>Pathum Dilshan is an Engineer – Network Planning &amp; Optimization at Mobitel, Sri Lanka, and an MSc Data Science &amp; AI student at the University of Moratuwa. He writes about telecom, data and AI. Connect on <a href="https://www.linkedin.com/in/pathum-dilshan/">LinkedIn</a> or visit <a href="https://pmpdilshan.github.io/">pmpdilshan.github.io</a>.</em></p>
+</article><footer>© 2026 Pathum Dilshan · Colombo, Sri Lanka</footer></main></body></html>

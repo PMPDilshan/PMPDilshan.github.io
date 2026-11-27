@@ -17,6 +17,8 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 
 ## Key facts
 - Current role: Engineer – Network Planning & Optimization, Mobitel (Pvt) Ltd, Colombo (since Sep 2024)
+- Work includes LTE capacity planning and IBS/DAS design for Bandaranaike International Airport (BIA), Katunayake
+- FAQ: https://pmpdilshan.github.io/faq.html
 - Previous: Technical Executive (Huawei), Prime Engineering Lanka, deployed to Hutchison Telecommunications Lanka (2024)
 - Research: drift-aware anomaly detection and root-cause ranking for mobile RAN KPI data (supervisor Prof. Indika Perera)
 - Skills: RF/RAN optimization, LTE/5G, Python, SQL, Apache Airflow, machine learning, anomaly detection, Power BI, Looker Studio
@@ -27,6 +29,7 @@ Not to be confused with Pathum Dilshan, the Sri Lankan cricketer.
 - P.M. Pathum Dilshan. "RFID Attendance System with Body Temperature GSM Module." 3rd CINEC International Research Symposium (CIRS 2022), 10 Nov 2022 (oral).
 
 ## Writing
+- [Designing Mobile Coverage for an International Airport: Capacity Planning from Passenger Flows](https://pmpdilshan.github.io/airport-ibs-das-capacity.html): LTE IBS/DAS capacity planning at Bandaranaike International Airport
 - [From Drive Tests to Data Pipelines: Why I Went from RF Engineer to Data & AI](https://pmpdilshan.github.io/rf-engineer-to-data-ai.html)
 - [What 817,741 Supermarket Transactions Taught Me About Reading Data](https://pmpdilshan.github.io/supermarket-sales-insights.html)
 - [Swapping 500+ Live Cell Sites Without Customers Noticing: Lessons from a Vendor Swap](https://pmpdilshan.github.io/vendor-swap-lessons.html)
